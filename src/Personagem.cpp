@@ -2,15 +2,19 @@
 #include "../include/Estilo.hpp"
 #include <iostream>
 
-Personagem::Personagem(std::string t_nome, std::string t_classe, int t_forca, int t_reflexos, int t_hack){
+Personagem::Personagem(std::string t_nome, std::string t_classe, int t_forca, int t_reflexos, int t_inteligencia, int t_tecnica, int t_moral, int t_sorte, int t_carisma){
 
     nome = t_nome;
     classe = t_classe;
     forca = t_forca;
     reflexos = t_reflexos;
-    hack = t_hack;
+    inteligencia = t_inteligencia;
+    tecnica = t_tecnica;
+    moral = t_moral;
+    sorte = t_sorte;
+    carisma = t_carisma;
 
-    hpMax = 50 + (forca * 5);
+    hpMax = 100 + (forca * 5);
     hpAtual = hpMax;
 }
 
@@ -39,19 +43,23 @@ bool Personagem::vivo(){
 
 void Personagem::ficha() {
     Estilo::impressaoEscrita(Estilo::CIANO + "=======================================", 10);
-    Estilo::impressaoEscrita(Estilo::CIANO + "       REGISTRO DE MERCENARIO          ", 10);
+    Estilo::impressaoEscrita(Estilo::DESTAQUE + Estilo::AMARELO + "       REGISTRO DE MERCENARIO          " + Estilo::RESET, 10);
     Estilo::impressaoEscrita(Estilo::CIANO + "=======================================" + Estilo::RESET, 10);
 
-    std::cout << Estilo::MAGENTA << "NOME:   " << Estilo::RESET << nome << "\n";
-    std::cout << Estilo::MAGENTA << "CLASSE: " << Estilo::RESET << classe << "\n";
+    std::cout << Estilo::ROSA << "NOME:   " << Estilo::RESET << nome << "\n";
+    std::cout << Estilo::ROSA << "CLASSE: " << Estilo::RESET << classe << "\n";
 
     std::string corHp = (hpAtual > hpMax * 0.3) ? Estilo::VERDE : Estilo::VERMELHO;
-    std::cout << Estilo::AMARELO << "VIDA:   " << corHp << hpAtual << " / " << hpMax << Estilo::RESET << "\n";
+    std::cout << Estilo::MAGENTA << "VIDA:   " << corHp << hpAtual << " / " << hpMax << Estilo::RESET << "\n";
 
-    std::cout << Estilo::CIANO << "---------------------------------------" << Estilo::RESET << "\n";
-    std::cout << "FORCA:    " << forca << " (Impacto fisico e resistencia)" << "\n";
-    std::cout << "REFLEXOS: " << reflexos << " (Esquiva e iniciativa de combate)" << "\n";
-    std::cout << "HACK:     " << hack << " (Invasao de sistemas corporativos)" << "\n";
+    std::cout << Estilo::CIANO << "=======================================" << Estilo::RESET << "\n";
+    std::cout <<  Estilo::AZUL << "FORCA:     " << forca << " (Impacto fisico e resistencia)" << "\n";
+    std::cout <<  Estilo::AZUL << "REFLEXOS:     " << reflexos << " (Esquiva e iniciativa de combate)" << "\n";
+    std::cout <<  Estilo::AZUL << "INTELIGENCIA:     " << inteligencia << " (Invasao de sistemas corporativos)" << "\n";
+    std::cout <<  Estilo::AZUL << "HABILIDADE TECNICA:     " << tecnica << " (Engenharia e tecnologia)" << "\n";
+    std::cout <<  Estilo::AZUL << "MORAL:     " << moral << " (Compostura e furtividade)" << "\n";
+    std::cout <<  Estilo::AZUL << "SORTE:     " << sorte << " (Criticos e milagres)" << "\n";
+    std::cout <<  Estilo::AZUL << "CARISMA:     " << carisma << " (Persuasao e relacionamento)" << "\n";
     std::cout << Estilo::CIANO << "=======================================" << Estilo::RESET << "\n";
 }
 
@@ -59,4 +67,8 @@ std::string Personagem::getNome() { return nome; }
 int Personagem::getHpAtual() { return hpAtual; }
 int Personagem::getForca() { return forca; }
 int Personagem::getReflexos() { return reflexos; }
-int Personagem::getHack() { return hack; }
+int Personagem::getInteligencia() { return inteligencia; }
+int Personagem::getTecnica() { return tecnica; }
+int Personagem::getMoral() { return moral; }
+int Personagem::getSorte() { return sorte; }
+int Personagem::getCarisma() { return carisma; }
