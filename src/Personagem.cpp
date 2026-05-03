@@ -46,21 +46,23 @@ void Personagem::ficha() {
     Estilo::impressaoEscrita(Estilo::DESTAQUE + Estilo::AMARELO + "       REGISTRO DE MERCENARIO          " + Estilo::RESET, 10);
     Estilo::impressaoEscrita(Estilo::CIANO + "=======================================" + Estilo::RESET, 10);
 
-    std::cout << Estilo::ROSA << "NOME:   " << Estilo::RESET << nome << "\n";
-    std::cout << Estilo::ROSA << "CLASSE: " << Estilo::RESET << classe << "\n";
+    Estilo::impressaoEscrita(Estilo::ROSA + "NOME:   " + Estilo::RESET + nome + "\n", 10);
+    Estilo::impressaoEscrita(Estilo::ROSA + "NOME:   " + Estilo::RESET + classe + "\n", 10);
 
     std::string corHp = (hpAtual > hpMax * 0.3) ? Estilo::VERDE : Estilo::VERMELHO;
-    std::cout << Estilo::MAGENTA << "VIDA:   " << corHp << hpAtual << " / " << hpMax << Estilo::RESET << "\n";
+    Estilo::impressaoEscrita(Estilo::MAGENTA + "VIDA:   " + corHp + std::to_string(hpAtual) + " / " + std::to_string(hpMax) + Estilo::RESET + "\n", 10);
 
-    std::cout << Estilo::CIANO << "=======================================" << Estilo::RESET << "\n";
-    std::cout <<  Estilo::AZUL << "FORCA:     " << forca << " (Impacto fisico e resistencia)" << "\n";
-    std::cout <<  Estilo::AZUL << "REFLEXOS:     " << reflexos << " (Esquiva e iniciativa de combate)" << "\n";
-    std::cout <<  Estilo::AZUL << "INTELIGENCIA:     " << inteligencia << " (Invasao de sistemas corporativos)" << "\n";
-    std::cout <<  Estilo::AZUL << "HABILIDADE TECNICA:     " << tecnica << " (Engenharia e tecnologia)" << "\n";
-    std::cout <<  Estilo::AZUL << "MORAL:     " << moral << " (Compostura e furtividade)" << "\n";
-    std::cout <<  Estilo::AZUL << "SORTE:     " << sorte << " (Criticos e milagres)" << "\n";
-    std::cout <<  Estilo::AZUL << "CARISMA:     " << carisma << " (Persuasao e relacionamento)" << "\n";
-    std::cout << Estilo::CIANO << "=======================================" << Estilo::RESET << "\n";
+    Estilo::impressaoEscrita(Estilo::CIANO+ "=======================================\n" + Estilo::RESET, 5);
+    
+    Estilo::impressaoEscrita(Estilo::AZUL + "FORCA:        " + Estilo::RESET + std::to_string(forca) + " (Impacto fisico e resistencia)", 10);
+    Estilo::impressaoEscrita(Estilo::AZUL + "REFLEXOS:     " + Estilo::RESET + std::to_string(reflexos) + " (Esquiva e iniciativa)", 10);
+    Estilo::impressaoEscrita(Estilo::AZUL + "INTELIGENCIA: " + Estilo::RESET + std::to_string(inteligencia) + " (Invasao de sistemas)", 10);
+    Estilo::impressaoEscrita(Estilo::AZUL + "TECNICA:      " + Estilo::RESET + std::to_string(tecnica) + " (Engenharia e tecnologia)", 10);
+    Estilo::impressaoEscrita(Estilo::AZUL + "MORAL:        " + Estilo::RESET + std::to_string(moral) + " (Controle e furtividade)", 10);
+    Estilo::impressaoEscrita(Estilo::AZUL + "SORTE:        " + Estilo::RESET + std::to_string(sorte) + " (Criticos e milagres)", 10);
+    Estilo::impressaoEscrita(Estilo::AZUL + "CARISMA:      " + Estilo::RESET + std::to_string(carisma) + " (Relacionamentos e persuasao)", 10);
+    
+    Estilo::impressaoEscrita(Estilo::CIANO+ "=======================================\n" + Estilo::RESET, 5);
 }
 
 std::string Personagem::getNome() { return nome; }
