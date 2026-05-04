@@ -2,17 +2,8 @@
 #include "../include/Estilo.hpp"
 #include <iostream>
 
-Personagem::Personagem(std::string t_nome, std::string t_classe, int t_forca, int t_reflexos, int t_inteligencia, int t_tecnica, int t_moral, int t_sorte, int t_carisma){
-
-    nome = t_nome;
-    classe = t_classe;
-    forca = t_forca;
-    reflexos = t_reflexos;
-    inteligencia = t_inteligencia;
-    tecnica = t_tecnica;
-    moral = t_moral;
-    sorte = t_sorte;
-    carisma = t_carisma;
+Personagem::Personagem(std::string t_nome, std::string t_classe, int t_forca, int t_reflexos, int t_inteligencia, int t_tecnica, int t_moral, int t_sorte, int t_carisma)
+    : nome(t_nome), classe(t_classe), forca(t_forca), reflexos(t_reflexos), inteligencia(t_inteligencia), tecnica(t_tecnica), moral(t_moral), sorte(t_sorte), carisma(t_carisma) {
 
     hpMax = 100 + (forca * 5);
     hpAtual = hpMax;
@@ -74,3 +65,4 @@ int Personagem::getTecnica() { return tecnica; }
 int Personagem::getMoral() { return moral; }
 int Personagem::getSorte() { return sorte; }
 int Personagem::getCarisma() { return carisma; }
+
