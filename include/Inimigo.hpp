@@ -1,28 +1,19 @@
 #ifndef INIMIGO_HPP
 #define INIMIGO_HPP
 
+#include "Entidade.hpp"
 #include <string>
 
-class Inimigo{
+class Inimigo : public Entidade {
 
     protected:
-        
-        std::string nome;
-        int atkBase;
-        int hpAtual;
-        int hpMax;
+        int danoBase;
 
     public:
 
-        Inimigo(std::string n_nome, int n_atk, int n_hp, int n_hpMax);
+        Inimigo(std::string n_nome, int n_vidaMax, int n_danoBase);
 
-        void recebeDano(int danoSofrido);
-        bool bivo();
-
-        std::string getNome();
-        int getAtk();
-        int getHpAtual();
-        int getHpMax();
+        int getDanoBase();
 };
 
 #endif

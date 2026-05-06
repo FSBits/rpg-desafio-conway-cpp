@@ -3,34 +3,9 @@
 #include <iostream>
 
 Personagem::Personagem(std::string t_nome, std::string t_classe, int t_forca, int t_reflexos, int t_inteligencia, int t_tecnica, int t_moral, int t_sorte, int t_carisma)
-    : nome(t_nome), classe(t_classe), forca(t_forca), reflexos(t_reflexos), inteligencia(t_inteligencia), tecnica(t_tecnica), moral(t_moral), sorte(t_sorte), carisma(t_carisma) {
-
-    hpMax = 100 + (forca * 5);
-    hpAtual = hpMax;
-}
-
-void Personagem::recebeDano(int dano){
-
-    hpAtual -= dano;
-    if(hpAtual < 0){
-
-        hpAtual = 0;
-    }
-}
-
-void Personagem::curarHp(int cura){
-
-    hpAtual += cura; 
-    if(hpAtual > hpMax){
-
-        hpAtual = hpMax;
-    }
-}
-
-bool Personagem::vivo(){
-
-    return hpAtual > 0;
-}
+    : Entidade(t_nome, 100 + (t_forca * 5)), 
+      classe(t_classe), forca(t_forca), reflexos(t_reflexos), inteligencia(t_inteligencia), 
+      tecnica(t_tecnica), moral(t_moral), sorte(t_sorte), carisma(t_carisma) {}
 
 void Personagem::ficha() {
     Estilo::impressaoEscrita(Estilo::CIANO + "=======================================", 10);
@@ -56,8 +31,7 @@ void Personagem::ficha() {
     Estilo::impressaoEscrita(Estilo::CIANO+ "=======================================\n" + Estilo::RESET, 5);
 }
 
-std::string Personagem::getNome() { return nome; }
-int Personagem::getHpAtual() { return hpAtual; }
+
 int Personagem::getForca() { return forca; }
 int Personagem::getReflexos() { return reflexos; }
 int Personagem::getInteligencia() { return inteligencia; }
