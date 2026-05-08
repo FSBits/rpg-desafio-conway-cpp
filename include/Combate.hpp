@@ -5,14 +5,15 @@
 #include "../include/Personagem.hpp"
 #include <random>
 
-struct EstadoCombate {
-    bool fugiu = false;
-    bool curtoUsado = false;
-    bool sabotagemUsada = false;
-    bool sobrecargaUsada = false;
-    bool inimigoSabotado = false;
-};
 namespace Combate{
+    
+    struct EstadoCombate {
+        bool fugiu = false;
+        bool curtoUsado = false;
+        bool sabotagemUsada = false;
+        bool sobrecargaUsada = false;
+        bool inimigoSabotado = false;
+    };
 
     bool iniciar(Personagem& jogador, Inimigo& adversario);
     void executarTurnoInimigo(Personagem& jogador, Inimigo& adversario, bool inimigoSabotado, std::mt19937& gen, std::uniform_int_distribution<>& d100);
