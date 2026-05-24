@@ -15,7 +15,14 @@ Um RPG narrativo de texto ambientado em um futuro distópico, jogado inteirament
 ## Funcionalidades
 
 - Criação de personagem com **5 classes** jogáveis (Solo, Netrunner, Techie, Nomad, Corpo)
-- **7 atributos** distribuíveis: Força, Reflexos, Inteligência, Técnica, Moral, Sorte e Carisma
+- **7 atributos** distribuíveis, cada um com impacto direto no gameplay:
+  - **Força** — aumenta o dano de armas corpo a corpo e a vida máxima
+  - **Reflexos** — eleva a chance de esquivar ataques inimigos e de fuga bem-sucedida
+  - **Inteligência** — determina a chance de sucesso dos hacks e a eficácia da Sabotagem Óptica (redução de dano recebido)
+  - **Técnica** — atributo de especialização, influencia o perfil técnico do personagem
+  - **Moral** — aumenta o dano de armas de fogo e a compostura
+  - **Sorte** — contribui para esquiva e para a chance de fuga em combate
+  - **Carisma** — atributo de influência social, impacta escolhas e desfechos narrativos
 - Sistema de **inventário e itens** (armas, consumíveis, chaves) (acabei não usando as chaves ;-;)
 - **3 cenas narrativas** com combates e escolhas
 - Efeito de impressão estilizada e cores no terminal via ANSI escape codes
