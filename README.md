@@ -2,7 +2,7 @@
 
 > *"Dawn City mastigou suas ambições e cuspiu a carcaça."*
 
-Um RPG narrativo de texto ambientado em um futuro distópico, jogado inteiramente no terminal. Desenvolvido em C++17 como desafio final da trilha **Sapphiron** da FSBits.
+Um RPG narrativo de texto ambientado em um futuro distópico, jogado inteiramente no terminal. Desenvolvido em C++17 como desafio final da trilha **Sapphiron** da Conway.
 
 ---
 
