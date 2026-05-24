@@ -20,6 +20,7 @@ struct Item{
     int valorEfeito; 
     int quantidade;
     bool armaDeFogo;
+    bool quebraIce;
 };
 class Personagem : public Entidade{
     
@@ -45,7 +46,7 @@ class Personagem : public Entidade{
         void ficha();
         void adcionarItem(Item novoItem);
         void listarInv();
-        bool usarItem(int index);
+        int usarItem(int index);
         bool temItem(std::string nomeItem);
 
         int getForca();
@@ -57,6 +58,7 @@ class Personagem : public Entidade{
         int getCarisma();
         Item getArmaEquipada();
         Item getArmaDeFogo();
+        int getTamanhoInventario() const{ return inv.size(); }
 };
 
 #endif

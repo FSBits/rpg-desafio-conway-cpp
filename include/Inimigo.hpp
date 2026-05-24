@@ -7,15 +7,14 @@
 class Inimigo : public Entidade {
 
     protected:
+        
         int danoBase;
-        int reflexos;
 
     public:
 
-        Inimigo(std::string n_nome, int n_vidaMax, int n_danoBase, int n_reflexos);
+        Inimigo(std::string n_nome, int n_vidaMax, int n_danoBase);
 
         int getDanoBase();
-        int getReflexos();
 };
 
 #endif

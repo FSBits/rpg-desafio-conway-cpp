@@ -44,7 +44,8 @@ bool Combate::iniciar(Personagem& jogador, Inimigo& adversario){
                 }
                 case 2: { //inv
                 
-                    turnoGasto = acessarInv(jogador);
+                    //turnoGasto = acessarInv(jogador); implementacao antiga.
+                    turnoGasto = acessarInv(jogador, estado);
                     break;
                 }
                 case 3: { //hackearam meu email hackearam meu site
@@ -65,7 +66,7 @@ bool Combate::iniciar(Personagem& jogador, Inimigo& adversario){
                     break;
             } 
 
-            if(adversario.vivo() && !estado.fugiu && turnoGasto) executarTurnoInimigo(jogador, adversario, estado.inimigoSabotado, gen, d100);
+            if(adversario.vivo() && !estado.fugiu && turnoGasto) executarTurnoInimigo(jogador, adversario, estado, gen, d100);
 
             if(jogador.vivo() && adversario.vivo() && !estado.fugiu){
                 
@@ -146,19 +147,88 @@ bool Combate::ataqueJogador(Personagem& jogador, Inimigo& adversario){
     return true;
 }
 
-bool Combate::acessarInv(Personagem &jogador){
+bool Combate::quebraIce(EstadoCombate& estado){
+
+    if(!estado.curtoUsado && !estado.sabotagemUsada && !estado.sobrecargaUsada){
+
+        Estilo::impressaoEscrita(Estilo::VERMELHO + "[ERRO] Todos os protocolos ja estao operacionais. Nao ha o que resetar.\n" + Estilo::RESET, 10);
+        return false;
+    }
+
+    Estilo::impressaoEscrita("\n" + Estilo::AMARELO + "[SISTEMA] Qual protocolo ICE voce deseja forcar a reinicializacao?" + Estilo::RESET + "\n", 5);
+    
+    if(estado.curtoUsado) Estilo::impressaoEscrita(Estilo::AZUL + "[1] Curto-Circuito\n", 5);
+    if(estado.sabotagemUsada) Estilo::impressaoEscrita("[2] Sabotagem Optica\n", 5);
+    if(estado.sobrecargaUsada) Estilo::impressaoEscrita("[3] Sobrecarga Neural\n" + Estilo::RESET, 5);
+    
+    Estilo::impressaoEscrita(Estilo::VERDE_CLARO + "Escolha o protocolo: " + Estilo::RESET, 5);
+
+    int hack;
+    bool escolha = false;
+    
+    while(!escolha){
+
+        if(std::cin >> hack){
+
+            if(hack == 1 && estado.curtoUsado){
+                
+                estado.curtoUsado = false;
+                Estilo::impressaoEscrita(Estilo::VERDE_CLARO + "[SUCESSO] Curto-Circuito reiniciado e pronto para uso.\n" + Estilo::RESET, 10);
+                escolha = true;
+            } 
+            else if(hack == 2 && estado.sabotagemUsada){
+                
+                estado.sabotagemUsada = false;
+                estado.inimigoSabotado = false; 
+                Estilo::impressaoEscrita(Estilo::VERDE_CLARO + "[SUCESSO] Sabotagem Optica reiniciada e pronta para uso.\n" + Estilo::RESET, 10);
+                escolha = true;
+            } 
+            else if(hack == 3 && estado.sobrecargaUsada){
+                
+                estado.sobrecargaUsada = false;
+                Estilo::impressaoEscrita(Estilo::VERDE_CLARO + "[SUCESSO] Sobrecarga Neural reiniciada e pronta para uso.\n" + Estilo::RESET, 10);
+                escolha = true;
+            } 
+            else
+                Estilo::impressaoEscrita(Estilo::VERMELHO + "[ERRO] Protocolo invalido ou ja operacional. Tente novamente: " + Estilo::RESET, 5);
+        } else{
+
+            std::cin.clear();
+            std::cin.ignore(999996799999, '\n');
+            Estilo::impressaoEscrita(Estilo::VERMELHO + "[ERRO] Entrada invalida. Escolha 1, 2 ou 3: " + Estilo::RESET, 5);
+        }
+    }
+
+    return true;
+}
+
+bool Combate::acessarInv(Personagem &jogador, EstadoCombate& estado){
 
     jogador.listarInv();
 
     Estilo::impressaoEscrita("\nDigite o numero do item que deseja usar (ou qualquer coisa para fechar a mochila): ", 5);
 
     int index;
-    if(std::cin >> index && index >= 0) return jogador.usarItem(index);
-    else{
+    if(std::cin >> index && index >= 0){
+
+        int temp = jogador.usarItem(index);
+
+        switch(temp){
+
+            case 1: 
+                return true;
+            
+            case 2:
+                return quebraIce(estado);
+            
+            default:
+                return false;
+        }
+    } else{
 
         std::cin.clear();
         std::cin.ignore(999996799999, '\n');
-        Estilo::impressaoEscrita(Estilo::CINZA_ESCURO + "Voce fechou a mochila rapidamente." + Estilo::RESET, 10);
+        Estilo::impressaoEscrita(Estilo::CINZA_ESCURO + "Voce fechou a mochila rapidamente.\n" + Estilo::RESET, 10);
         return false;
     }
 }
@@ -211,6 +281,7 @@ bool Combate::executarInvasao(Personagem& jogador, Inimigo& adversario, EstadoCo
                         Estilo::impressaoEscrita(Estilo::VERDE_CLARO + "[SUCESSO] Curto-circuito aplicado! Sistemas motores travados." + Estilo::RESET + "\n", 10);
                         Estilo::impressaoEscrita(Estilo::CIANO + ">> BRECHA ABERTA: Voce ganhou uma acao extra neste turno! <<\n" + Estilo::RESET, 10);
                         stunBonus = true;
+                        estado.inimigoStunado = true;
                     } else
                         Estilo::impressaoEscrita(Estilo::VERMELHO + "[FALHA] Acesso negado pelo ICE corporativo." + Estilo::RESET + "\n", 10);
                 } 
@@ -227,8 +298,10 @@ bool Combate::executarInvasao(Personagem& jogador, Inimigo& adversario, EstadoCo
                     hackTry = true;
 
                     if(dado <= chance){
-                        Estilo::impressaoEscrita(Estilo::VERDE_CLARO + "[SUCESSO] Modulos oticos corrompidos. Precisao inimiga reduzida drasticamente!" + Estilo::RESET + "\n", 10);
+                        
+                        Estilo::impressaoEscrita(Estilo::VERDE_CLARO + "[SUCESSO] Modulos oticos corrompidos. Precisao inimiga reduzida por 3 turnos!" + Estilo::RESET + "\n", 10);
                         estado.inimigoSabotado = true;
+                        estado.durSabotagem = 3;
                     } else
                         Estilo::impressaoEscrita(Estilo::VERMELHO + "[FALHA] Acesso negado pelo ICE corporativo." + Estilo::RESET + "\n", 10);
                 }
@@ -236,6 +309,7 @@ bool Combate::executarInvasao(Personagem& jogador, Inimigo& adversario, EstadoCo
             } 
             
             case 3: {
+                
                 if(estado.sobrecargaUsada) Estilo::impressaoEscrita(Estilo::VERMELHO + "[ERRO] O sistema inimigo ja se adaptou a este protocolo." + Estilo::RESET + "\n", 10);
                 else {
                     
@@ -244,6 +318,7 @@ bool Combate::executarInvasao(Personagem& jogador, Inimigo& adversario, EstadoCo
                     hackTry = true;
                     
                     if(dado <= chance){
+                        
                         int danoHack = 10 + (intel * 5);
                         Estilo::impressaoEscrita(Estilo::VERDE_CLARO + "[SUCESSO] Sobrecarga executada! Sinapses fritadas." + Estilo::RESET + "\n", 10);
                         adversario.recebeDano(danoHack);
@@ -275,6 +350,7 @@ bool Combate::tryFuga(Personagem& jogador, EstadoCombate& estado, std::mt19937& 
     Estilo::impressaoEscrita(Estilo::CINZA_ESCURO + "Voce tenta correr para as sombras...\n" + Estilo::RESET, 15);
 
     if(dado <= chance){
+        
         Estilo::impressaoEscrita(Estilo::VERDE_CLARO + "Voce despistou o inimigo com sucesso!" + Estilo::RESET, 15);
         estado.fugiu = true;
     } else
@@ -283,8 +359,17 @@ bool Combate::tryFuga(Personagem& jogador, EstadoCombate& estado, std::mt19937& 
     return true;
 }
                     
-void Combate::executarTurnoInimigo(Personagem& jogador, Inimigo& adversario, bool inimigoSabotado, std::mt19937& gen, std::uniform_int_distribution<>& d100){
-                    
+void Combate::executarTurnoInimigo(Personagem& jogador, Inimigo& adversario, EstadoCombate& estado, std::mt19937& gen, std::uniform_int_distribution<>& d100){
+    
+    if(estado.inimigoStunado){
+
+        Estilo::impressaoEscrita("\n-----------------------------------------\n", 5);
+        Estilo::impressaoEscrita(Estilo::AZUL + "[ALERTA] Os sistemas motores do " + adversario.getNome() + " estao travados! Ele perde a vez!\n" + Estilo::RESET, 15);
+
+        estado.inimigoStunado = false;
+        return;
+    }
+
     Estilo::impressaoEscrita("\n-----------------------------------------\n", 5);
     Estilo::impressaoEscrita(Estilo::ROSA + adversario.getNome() + Estilo::RESET + " contra-ataca!\n", 15);
                         
@@ -292,11 +377,11 @@ void Combate::executarTurnoInimigo(Personagem& jogador, Inimigo& adversario, boo
     int dadoEsquiva = d100(gen);
                         
     if(dadoEsquiva <= chanceEsquiva) Estilo::impressaoEscrita(Estilo::VERDE_CLARO + "* SWOOSH * Os seus reflexos salvaram a sua vida! Voce desviou do ataque!" + Estilo::RESET, 10);
-     else{
+    else{
                         
         int danoRecebido = adversario.getDanoBase();
                     
-        if(inimigoSabotado){
+        if(estado.durSabotagem > 0){
                     
             int reducao = 10 + (jogador.getInteligencia() * 2);
             if(reducao > 60) reducao = 60;
@@ -304,10 +389,23 @@ void Combate::executarTurnoInimigo(Personagem& jogador, Inimigo& adversario, boo
             int danoReduzido = (danoRecebido * reducao) / 100;
             danoRecebido -= danoReduzido;
             if(danoRecebido < 1) danoRecebido = 1;
+            
             Estilo::impressaoEscrita(Estilo::CIANO + "[Sabotagem Optica] O dano inimigo foi reduzido em " + std::to_string(reducao) + "%!\n" + Estilo::RESET, 10);
         }
                                             
         jogador.recebeDano(danoRecebido); 
         Estilo::impressaoEscrita(Estilo::VERMELHO + ">> Voce sofreu " + std::to_string(danoRecebido) + " de dano! <<" + Estilo::RESET, 10);
     }
+
+    if(estado.durSabotagem > 0){
+        
+        estado.durSabotagem--;
+        if(estado.durSabotagem == 0){
+            
+            estado.inimigoSabotado = false;
+            Estilo::impressaoEscrita("\n" + Estilo::AMARELO + "[ALERTA] O sistema do inimigo reiniciou as oticas. Sabotagem finalizada!" + Estilo::RESET + "\n", 10);
+        }
+    }
 }
+
+//meu Deus quanto if.

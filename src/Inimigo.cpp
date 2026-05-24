@@ -3,8 +3,7 @@
 #include <iostream>
 #include <string>
 
-Inimigo::Inimigo(std::string n_nome, int n_vidaMax, int n_danoBase, int n_reflexos)
-    : Entidade(n_nome, n_vidaMax), danoBase(n_danoBase), reflexos(n_reflexos) {}
+Inimigo::Inimigo(std::string n_nome, int n_vidaMax, int n_danoBase)
+    : Entidade(n_nome, n_vidaMax), danoBase(n_danoBase){}
 
 int Inimigo::getDanoBase() { return danoBase; }
-int Inimigo::getReflexos() { return reflexos; }
