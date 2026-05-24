@@ -204,6 +204,9 @@ void creditosFinais(){
     std::cout << "\n\n";
     Estilo::impressaoEscrita(Estilo::VERDE_CLARO + "=====================================================\n", 2);
     Estilo::impressaoEscrita("                OBRIGADO POR JOGAR                   \n", 15);
+    Estilo::impressaoEscrita("                Feito por: MIM                   \n", 70);
+    Estilo::impressaoEscrita("                Brincadeira...                   \n", 70);
+    Estilo::impressaoEscrita("                Feito por: >> fsbits <<                   \n", 70);
     Estilo::impressaoEscrita("=====================================================\n" + Estilo::RESET, 2);
     Estilo::impressaoEscrita(Estilo::CINZA_ESCURO + " Desenvolvido para o desafio final da trilha Sapphiron.\n", 10);
 }
